@@ -4,7 +4,7 @@ node('master')
 {
     stage('ContinuousDownload')
     {
-        git 'https://github.com/selenium-saikrishna/maven.git'
+        git 'https://github.com/k19041986/maven'
     }
     
     
@@ -16,13 +16,13 @@ node('master')
     
     stage('ContinuousDeployment') 
     {
-        sh 'scp /var/lib/jenkins/workspace/CodeasPipeline/webapp/target/webapp.war vagrant@10.0.0.11:/var/lib/tomcat7/webapps/qaenv.war'
+        sh 'scp /var/lib/jenkins/workspace/CodeasPipeline/webapp/target/webapp.war vagrant@192.168.61.22:/var/lib/tomcat7/webapps/qaenv.war'
     }
     
     stage('ContinuousTesting')
     {
         
-        git 'https://github.com/selenium-saikrishna/TestingOnLinux.git'
+        git 'https://github.com/k19041986/TestingLinux'
         
         sh 'java -jar /var/lib/jenkins/workspace/CodeasPipeline/testing.jar'
         
@@ -30,8 +30,8 @@ node('master')
     
     stage('ContinuousDelivery')
     {
-        input message: 'Waiting for approval for delivery from Delivery manager', submitter: 'Venu'
-        sh 'scp /var/lib/jenkins/workspace/CodeasPipeline/webapp/target/webapp.war vagrant@10.0.0.13:/var/lib/tomcat7/webapps/prodenv.war'
+        input message: 'Waiting for approval for delivery from Delivery manager', submitter: 'dem'
+        sh 'scp /var/lib/jenkins/workspace/CodeasPipeline/webapp/target/webapp.war vagrant@192.168.61.13:/var/lib/tomcat7/webapps/prodenv.war'
     }
     
     
